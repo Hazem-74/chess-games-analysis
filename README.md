@@ -1,90 +1,149 @@
-# Chess Games Analysis
+# Chess Games History Analysis
 
-This repository, 'Chess Games Analysis' by Hazem-74, contains Jupyter notebooks designed to parse, extract, and analyze historical chess game data from PGN (Portable Game Notation) files. The project provides tools to load game records, extract detailed metadata from game headers, and structure this information for further analytical exploration using Python and popular data science libraries.
+## Project Overview
 
-## Project Purpose
+This Python-based analysis tool processes and analyzes chess game history from PGN (Portable Game Notation) files. The script provides comprehensive insights into chess performance, including rating progression, opening statistics, win/loss patterns, and machine learning-based outcome prediction.
 
-The primary goal of this project is to facilitate the analysis of chess game history. By processing PGN files, users can gain insights into various aspects of their games or public game databases, such as opening choices, player ratings, game outcomes, and more.
+## Features
 
-## Files Overview
+### Game Statistics
+- Overall win/loss/draw percentages
+- Performance analysis by color (White/Black)
+- Time control category breakdown (Bullet, Blitz, Rapid, Classical)
+- Rating progression tracking
 
-This repository includes the following Jupyter notebooks:
+### Opening Analysis
+- Win rates for specific openings
+- Performance by opening family and ECO codes
+- Color-specific opening success rates
+- Top and bottom performing openings
 
-### `Chess_com.ipynb`
+### Performance Metrics
+- Rating difference analysis
+- Game termination patterns
+- ECO category distribution
+- Historical rating trends
 
-*   **Purpose:** This notebook serves as a foundational script for loading and parsing chess game data directly from a PGN file using the `python-chess` library. It demonstrates the basic steps required to read individual games from a PGN source.
-*   **Main Logic:**
-    *   Initializes with core libraries `chess.pgn` and `pandas`.
-    *   Specifies a PGN file path (e.g., `"lichess_Hazem74.pgn"`).
-    *   Reads the PGN file game by game using `chess.pgn.read_game()`.
-    *   Stores each parsed `chess.pgn.Game` object in a list.
-    *   Provides a count of the total games successfully loaded from the PGN.
-*   **Methodology:** Focuses on the iterative parsing of PGN files to access raw `chess.pgn.Game` objects, which contain all game details including headers and move sequences. Although named `Chess_com.ipynb`, the provided code is configured to read from a Lichess PGN, illustrating a general approach applicable to any PGN source.
+### Machine Learning
+- Game outcome prediction using Random Forest and Gradient Boosting classifiers
+- Feature importance analysis
+- Win probability estimation
+- Model performance comparison
 
-### `Lichess.ipynb`
+## Installation Requirements
 
-*   **Purpose:** Building upon the basic parsing capabilities, this notebook specializes in extracting detailed header information from PGN files and transforming it into a structured Pandas DataFrame. This step is crucial for performing quantitative analysis on game metadata.
-*   **Main Logic:**
-    *   Imports `chess.pgn` and `pandas` for game parsing and data manipulation.
-    *   Specifies a PGN file path (e.g., `"lichess_Hazem74.pgn"`).
-    *   Parses games similar to `Chess_com.ipynb`, but additionally extracts `game.headers` for each game.
-    *   Identifies and collects all unique PGN header keys (e.g., 'Event', 'Site', 'Date', 'WhiteElo', 'BlackElo', 'Result', 'Opening', 'ECO', etc.) present across all games.
-    *   Constructs a Pandas DataFrame where each row represents a game, and columns correspond to the collected PGN header keys, ensuring consistency by filling missing values where a header might not be present for a specific game.
-    *   Displays the discovered headers and the head of the resulting DataFrame.
-*   **Methodology:** Emphasizes data extraction and transformation. It effectively turns unstructured PGN header data into a clean, tabular format, making it ready for filtering, aggregation, and statistical analysis using Pandas.
+### Prerequisites
+- Python 3.7+
+- Jupyter Notebook (optional)
 
-## Requirements
-
-To run these notebooks, you will need:
-
-*   Python 3.x
-*   Jupyter Notebook (or JupyterLab)
-*   The `pandas` library
-*   The `python-chess` library
-
-## Installation
-
-You can install the required Python packages using pip:
-
-```bash
-pip install jupyter pandas python-chess
+### Required Libraries
+```
+pip install chess pandas matplotlib seaborn numpy scikit-learn
 ```
 
-## Cloning the Repository
+### Core Dependencies
+- chess: PGN file parsing
+- pandas: Data manipulation and analysis
+- matplotlib & seaborn: Data visualization
+- numpy: Numerical operations
+- scikit-learn: Machine learning models
 
-To get a local copy of this project, open your terminal or command prompt and run:
+## Usage Instructions
 
-```bash
-git clone https://github.com/Hazem-74/Chess-Games-Analysis.git
+1. Place your PGN file in the project directory
+2. Update the username in the script (line 76) to match your chess username
+3. Run the Jupyter notebook or Python script
+
+### Configuration
+```python
+# Set your PGN file path
+pgn_file = "your_games.pgn"
+
+# Set your username
+your_username = 'YourUsername'
 ```
 
-## How to Run the Notebooks
+## Output and Analysis
 
-1.  **Navigate to the project directory:**
-    ```bash
-    cd Chess-Games-Analysis
-    ```
-2.  **Place your PGN file:** Ensure your PGN file (e.g., `lichess_Hazem74.pgn` or any other `.pgn` file you wish to analyze) is located in the root of the `Chess-Games-Analysis` directory, or update the `pgn_file` variable within the notebooks to point to its correct path.
-3.  **Start Jupyter Notebook:**
-    ```bash
-    jupyter notebook
-    ```
-4.  **Open a notebook:** Your web browser will open, displaying the Jupyter interface. From there, you can open `Chess_com.ipynb` or `Lichess.ipynb`.
-5.  **Run cells:** Execute the notebook cells sequentially to see the parsing and data extraction in action.
+### Visualizations
+- Rating progression over time
+- Opening performance charts
+- ECO code distribution
+- Win rate vs rating difference
+- Model performance comparisons
 
-## Usage Example
+### Statistical Reports
+- Overall performance summary
+- Color-based performance analysis
+- Time control statistics
+- Opening success rates
+- Machine learning model accuracy
 
-After running the `Lichess.ipynb` notebook, you will have a Pandas DataFrame (`df`) containing comprehensive metadata for all your games. This DataFrame can then be used for various analyses, such as:
+### Machine Learning Features
+The ML models use the following features for prediction:
+- Your rating
+- Opponent rating
+- Rating difference
+- Color (White/Black)
+- ECO code
+- Time control category
+- Opening name
 
-*   Filtering games by specific players or events.
-*   Analyzing win/loss ratios for different openings.
-*   Tracking changes in player ratings over time.
-*   Identifying common time controls or game variants.
+## Key Functions
 
-## Contributing
+### Data Processing
+- PGN file parsing and cleaning
+- Feature engineering (rating difference, time categories)
+- Opening family extraction
+- Result classification
 
-Feel free to fork this repository, submit pull requests, or open issues if you have suggestions, improvements, or encounter any problems.
+### Analysis Functions
+- `categorize_time_control()`: Classifies time controls
+- `determine_result()`: Determines game outcome
+- `predict_game_outcome()`: Predicts win probability for future games
+
+### Machine Learning
+- Random Forest Classifier
+- Gradient Boosting Classifier
+- Model evaluation and comparison
+- Feature importance analysis
+
+
+## Customization
+
+### For Different Users
+1. Change the `your_username` variable to match your chess username
+2. Update the PGN file path to point to your game history
+3. Adjust visualization parameters as needed
+
+### For Different Time Controls
+Modify the `categorize_time_control()` function to adjust time control thresholds:
+- Bullet: < 3 minutes
+- Blitz: 3-8 minutes
+- Rapid: 8-25 minutes
+- Classical: > 25 minutes
+  
+## Limitations
+
+1. Requires standard PGN format from Lichess or Chess.com
+2. Assumes consistent username across all games
+3. Machine learning accuracy depends on dataset size
+4. Time control categorization based on base time only
+
+## Future Enhancements
+
+1. Add move-by-move analysis
+2. Incorporate engine evaluation data
+3. Support for multiple PGN files
+4. Advanced opening repertoire analysis
+5. Interactive web interface
 
 ## License
 
-This project is open-source. Please refer to the repository's license for more details.
+This project is open source and available for educational and personal use.
+
+## Acknowledgments
+
+- Uses the `python-chess` library for PGN parsing
+- Built with scikit-learn for machine learning components
+- Designed for compatibility with Lichess and Chess.com PGN exports
